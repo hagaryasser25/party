@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "705808486490",
+    "project_id": "party-c2bdd",
+    "storage_bucket": "party-c2bdd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705808486490:android:6e0e547375ed1e6a6e0863",
+        "android_client_info": {
+          "package_name": "com.example.party"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwMYA_JSsvgSYlfBIELZluLONC-LKz7oU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
