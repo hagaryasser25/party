@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: FirebaseAuth.instance.currentUser == null
-            ? Login()
+            ? Home()
             : FirebaseAuth.instance.currentUser!.email == 'admin@gmail.com'
                 ? const AdminHome()
                 : FirebaseAuth.instance.currentUser!.displayName == 'منسق'

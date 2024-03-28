@@ -21,28 +21,20 @@ class Login extends StatefulWidget {
 
 class _Login extends State<Login> {
   bool obscureText = false;
-  late TextEditingController Passcontroller;
-  late TextEditingController emailcontroller;
   // ignore: deprecated_member_use
-  late CountryCode selectedCountry = CountryCode.fromCode('EG');
   Color BackColor = Color.fromRGBO(21, 203, 149, 1);
 
   void initState() {
     super.initState();
-    Passcontroller = TextEditingController();
-    emailcontroller = TextEditingController();
-    selectedCountry = CountryCode();
+
   }
 
   @override
   Widget build(BuildContext context) {
     // Replace 0xFF00FF00 with your desired hex color code
-
-    EdgeInsetsGeometry padding = EdgeInsets.only(
-      left: ScreenUtil().setWidth(131),
-      right: ScreenUtil().setWidth(131),
-      top: ScreenUtil().setHeight(224),
-    );
+  var passcontroller = TextEditingController();
+  var emailcontroller = TextEditingController();
+  
     return MaterialApp(
       home: Directionality(
         textDirection: TextDirection.rtl,
@@ -92,7 +84,7 @@ class _Login extends State<Login> {
                 child: Container(
                   width: 260,
                   child: TextFormField(
-                    controller: Passcontroller,
+                    controller: passcontroller,
                     obscureText: obscureText,
                     decoration: InputDecoration(
                       prefixIcon: Icon(widget.icon), // Icon you want to add
@@ -120,7 +112,7 @@ class _Login extends State<Login> {
                   child: ElevatedButton(
                     onPressed: () async {
                       var email = emailcontroller.text.trim();
-                      var password = Passcontroller.text.trim();
+                      var password = passcontroller.text.trim();
 
                       if (email.isEmpty || password.isEmpty) {
                         MotionToast(
