@@ -9,21 +9,24 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:motion_toast/resources/arrays.dart';
-import 'package:party/admin/add_halls.dart';
+import 'package:party/coordinator/add_halls.dart';
 import 'package:party/models/halls_model.dart';
 
 import 'package:staggered_grid_view_flutter/widgets/staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/widgets/staggered_tile.dart';
 
-class AdminHalls extends StatefulWidget {
-  static const routeName = '/adminHalls';
-  AdminHalls({super.key, });
+class CoordinatorHalls extends StatefulWidget {
+  String name;
+  static const routeName = '/coordinatorHalls';
+  CoordinatorHalls({
+    required this.name
+  });
 
   @override
-  State<AdminHalls> createState() => _AdminHallsState();
+  State<CoordinatorHalls> createState() => _CoordinatorHallsState();
 }
 
-class _AdminHallsState extends State<AdminHalls> {
+class _CoordinatorHallsState extends State<CoordinatorHalls> {
   late DatabaseReference base;
   late FirebaseDatabase database;
   late FirebaseApp app;
@@ -40,7 +43,7 @@ class _AdminHallsState extends State<AdminHalls> {
   void fetchHalls() async {
     app = await Firebase.initializeApp();
     database = FirebaseDatabase(app: app);
-    base = await database.reference().child("halls");
+    base =  database.reference().child("halls").child(widget.name);
     base.onChildAdded.listen((event) {
       print(event.snapshot.value);
       Halls p = Halls.fromJson(event.snapshot.value);

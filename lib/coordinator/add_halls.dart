@@ -1,5 +1,6 @@
 import 'package:cherry_toast/cherry_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +10,8 @@ import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:party/admin/admin_home.dart';
+import 'package:party/coordinator/coordinator_home.dart';
+import 'package:party/models/co_model.dart';
 
 class AddHalls extends StatefulWidget {
   static const routeName = '/addHalls';
@@ -35,6 +38,7 @@ class _AddHallsState extends State<AddHalls> {
     descriptioncontroller = TextEditingController();
     placecontroller = TextEditingController();
     phonecontroller = TextEditingController();
+    getUserData();
   }
 
   String imageUrl = '';
@@ -60,6 +64,31 @@ class _AddHallsState extends State<AddHalls> {
       imageUrl = await refrenceImageToUpload.getDownloadURL();
     } catch (error) {}
     print(imageUrl);
+  }
+
+  late DatabaseReference base;
+  late FirebaseDatabase database;
+  late FirebaseApp app;
+  late Co currentUser;
+
+  void didChangeDependencies() {
+    getUserData();
+    super.didChangeDependencies();
+  }
+
+
+  getUserData() async {
+    app = await Firebase.initializeApp();
+    database = FirebaseDatabase(app: app);
+    base = database
+        .reference()
+        .child("coordinator")
+        .child(FirebaseAuth.instance.currentUser!.uid);
+
+    final snapshot = await base.get();
+    setState(() {
+      currentUser = Co.fromSnapshot(snapshot);
+    });
   }
 
   @override
@@ -279,7 +308,8 @@ class _AddHallsState extends State<AddHalls> {
 
                         DatabaseReference companyRef = FirebaseDatabase.instance
                             .reference()
-                            .child('halls');
+                            .child('halls')
+                            .child('${currentUser.name}');
 
                         String? id = companyRef.push().key;
 
@@ -291,6 +321,7 @@ class _AddHallsState extends State<AddHalls> {
                           'place': place,
                           'description': description,
                           'phone': phone,
+                          'coName': currentUser.name
                         });
                       }
                       showAlertDialog(context);
@@ -355,7 +386,7 @@ void showAlertDialog(BuildContext context) {
     ),
     child: Text("Ok"),
     onPressed: () {
-      Navigator.pushNamed(context, AdminHome.routeName);
+      Navigator.pushNamed(context, CoordinatorHome.routeName);
     },
   );
 

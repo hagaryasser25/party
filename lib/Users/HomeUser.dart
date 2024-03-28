@@ -7,6 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:party/Home.dart';
 import 'package:party/Users/hall_details.dart';
 import 'package:party/Users/prevoiusWork.dart';
+import 'package:party/Users/user_halls.dart';
+import 'package:party/models/coordinator_model.dart';
 import 'package:party/models/halls_model.dart';
 import 'package:party/models/users_model.dart';
 
@@ -22,9 +24,9 @@ class _HomeUserState extends State<HomeUser> {
   late DatabaseReference base;
   late FirebaseDatabase database;
   late FirebaseApp app;
-  List<Halls> hallsList = [];
+  List<Coordinator> list = [];
   List<String> keyslist = [];
-    late Users currentUser;
+  late Users currentUser;
 
   @override
   void initState() {
@@ -49,18 +51,18 @@ class _HomeUserState extends State<HomeUser> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    fetchHalls();
+    fetchCo();
   }
 
   @override
-  void fetchHalls() async {
+  void fetchCo() async {
     app = await Firebase.initializeApp();
     database = FirebaseDatabase(app: app);
-    base = await database.reference().child("halls");
+    base = await database.reference().child("coordinator");
     base.onChildAdded.listen((event) {
       print(event.snapshot.value);
-      Halls p = Halls.fromJson(event.snapshot.value);
-      hallsList.add(p);
+      Coordinator p = Coordinator.fromJson(event.snapshot.value);
+      list.add(p);
       keyslist.add(event.snapshot.key.toString());
       if (mounted) {
         setState(() {});
@@ -69,7 +71,6 @@ class _HomeUserState extends State<HomeUser> {
   }
 
   Color BackColor = Color.fromRGBO(21, 203, 149, 1);
-
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +115,6 @@ class _HomeUserState extends State<HomeUser> {
                           ],
                         ),
                       ),
-
                       ListTile(
                         leading: Icon(
                           Icons.person,
@@ -163,8 +163,8 @@ class _HomeUserState extends State<HomeUser> {
                                             TextButton(
                                               onPressed: () {
                                                 FirebaseAuth.instance.signOut();
-                                                Navigator.pushNamed(context,
-                                                    Home.routeName);
+                                                Navigator.pushNamed(
+                                                    context, Home.routeName);
                                               },
                                               child: Text('نعم'),
                                             ),
@@ -201,7 +201,7 @@ class _HomeUserState extends State<HomeUser> {
                 padding: const EdgeInsets.only(top: 30, bottom: 10),
                 child: Center(
                   child: Text(
-                    "القاعات",
+                    "المنسقين",
                     style: TextStyle(
                       fontSize: 20.0,
                     ),
@@ -212,21 +212,18 @@ class _HomeUserState extends State<HomeUser> {
                 // Set a fixed height or adjust as needed
                 child: Expanded(
                   child: ListView.builder(
-                    itemCount: hallsList.length,
+                    itemCount: list.length,
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
+                          
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return HallDetails(
-                              name: '${hallsList[index].name}',
-                              price: '${hallsList[index].price}',
-                              phone: '${hallsList[index].phoneNumber}',
-                              place: '${hallsList[index].place}',
-                              description: '${hallsList[index].description}',
-                              imageUrl: '${hallsList[index].imageUrl}',
+                            return UserHalls(
+                              coName: '${list[index].name}',
                             );
                           }));
+                          
                         },
                         child: Container(
                           margin: EdgeInsets.all(8.0),
@@ -238,14 +235,14 @@ class _HomeUserState extends State<HomeUser> {
                           child: Column(
                             children: [
                               Image.network(
-                                '${hallsList[index].imageUrl}',
+                                '${list[index].imageUrl}',
                                 width: 100.0,
                                 height: 100.0,
                                 fit: BoxFit.cover,
                               ),
                               SizedBox(height: 8.0),
                               Text(
-                                '${hallsList[index].name}',
+                                '${list[index].name}',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16.0,

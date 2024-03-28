@@ -15,8 +15,10 @@ import 'package:party/Users/HomeUser.dart';
 
 class Booking extends StatefulWidget {
   String name;
+  String coName;
   static const routeName = '/booking';
-  Booking({required this.name});
+  Booking({required this.name,
+  required this.coName});
 
   @override
   State<Booking> createState() => _BookingState();
@@ -93,22 +95,21 @@ class _BookingState extends State<Booking> {
                   SizedBox(
                     height: 25.h,
                   ),
-
                   SizedBox(
-                      height: 65.h,
-                      child: TextField(
-                        controller: dateController,
-                        decoration: InputDecoration(
-                          fillColor: HexColor('#155564'),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color(0xfff8a55f), width: 2.0),
-                          ),
-                          border: OutlineInputBorder(),
-                          hintText: 'تاريخ الحجز',
+                    height: 65.h,
+                    child: TextField(
+                      controller: dateController,
+                      decoration: InputDecoration(
+                        fillColor: HexColor('#155564'),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xfff8a55f), width: 2.0),
                         ),
+                        border: OutlineInputBorder(),
+                        hintText: 'تاريخ الحجز',
                       ),
                     ),
+                  ),
                   SizedBox(
                     height: 25.h,
                   ),
@@ -142,7 +143,7 @@ class _BookingState extends State<Booking> {
                           DatabaseReference companyRef = FirebaseDatabase
                               .instance
                               .reference()
-                              .child('bookings');
+                              .child('bookings').child(widget.coName);
 
                           String? id = companyRef.push().key;
 
@@ -152,8 +153,8 @@ class _BookingState extends State<Booking> {
                             'phoneNumber': phoneNumber,
                             'date': date,
                             'hallName': '${widget.name}'
-                           // 'place': widget.place,
-                           // 'company': widget.company,
+                            // 'place': widget.place,
+                            // 'company': widget.company,
                           });
                         }
                         showAlertDialog(context);
@@ -199,4 +200,3 @@ void showAlertDialog(BuildContext context) {
     },
   );
 }
-

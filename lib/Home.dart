@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:party/auth/Login.dart';
 import 'package:party/auth/admin_login.dart';
+import 'package:party/auth/coordinator_login.dart';
 
 class Home extends StatefulWidget {
     static const routeName = '/home';
@@ -81,6 +82,24 @@ class _HomeState extends State<Home> {
                     "مدير التطبيق",
                     style: TextStyle(fontSize: 18),
                   )),
+                  
+            ),
+             SizedBox(height: 20.h,),
+            SizedBox(
+              width: 170.w,
+              child: ElevatedButton.icon(
+                  onPressed: () {
+                      Navigator.pushNamed(context, CoordinatorLogin.routeName);
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: BackColor,
+                      side: BorderSide(width: 3.0, color: BackColor)),
+                  icon: const Icon(Icons.person),
+                  label: const Text(
+                    "المنسق",
+                    style: TextStyle(fontSize: 18),
+                  )),
+                  
             ),
             SizedBox(
               height: 15.h,

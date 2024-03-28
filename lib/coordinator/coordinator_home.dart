@@ -8,16 +8,42 @@ import 'package:party/Home.dart';
 import 'package:party/admin/admin_coordinators.dart';
 import 'package:party/coordinator/coordinator_halls.dart';
 import 'package:party/coordinator/coordinator_list.dart';
+import 'package:party/coordinator/add_halls.dart';
+import 'package:party/models/co_model.dart';
 
-class AdminHome extends StatefulWidget {
-  static const routeName = '/adminHome';
-  const AdminHome({super.key});
+class CoordinatorHome extends StatefulWidget {
+  static const routeName = '/coordinatorHome';
+  const CoordinatorHome({super.key});
 
   @override
-  State<AdminHome> createState() => _AdminHomeState();
+  State<CoordinatorHome> createState() => _CoordinatorHomeState();
 }
 
-class _AdminHomeState extends State<AdminHome> {
+class _CoordinatorHomeState extends State<CoordinatorHome> {
+  late DatabaseReference base;
+  late FirebaseDatabase database;
+  late FirebaseApp app;
+  late Co currentUser;
+
+  void didChangeDependencies() {
+    getUserData();
+    super.didChangeDependencies();
+  }
+
+  getUserData() async {
+    app = await Firebase.initializeApp();
+    database = FirebaseDatabase(app: app);
+    base = database
+        .reference()
+        .child("coordinator")
+        .child(FirebaseAuth.instance.currentUser!.uid);
+
+    final snapshot = await base.get();
+    setState(() {
+      currentUser = Co.fromSnapshot(snapshot);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Color BackColor = Color.fromRGBO(21, 203, 149, 1);
@@ -36,6 +62,37 @@ class _AdminHomeState extends State<AdminHome> {
                 'الصفحة الرئيسية',
                 style: TextStyle(color: Colors.white),
               )),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.logout),
+                  tooltip: 'Open shopping cart',
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('تأكيد'),
+                            content: Text('هل انت متأكد من تسجيل الخروج'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  FirebaseAuth.instance.signOut();
+                                  Navigator.pushNamed(context, Home.routeName);
+                                },
+                                child: Text('نعم'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('لا'),
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                ),
+              ],
             ),
             body: Column(
               children: [
@@ -55,42 +112,26 @@ class _AdminHomeState extends State<AdminHome> {
                     children: [
                       InkWell(
                           onTap: () {
-                            Navigator.pushNamed(
-                                context, AdminCoordinators.routeName);
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return CoordinatorHalls(
+                                name: '${currentUser.name}',
+                              );
+                            }));
                           },
-                          child: card("أضافة منسق", Icons.add)),
+                          child: card("اضافة قاعة", Icons.add)),
                       SizedBox(
                         width: 15.w,
                       ),
                       InkWell(
                           onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text('تأكيد'),
-                                    content:
-                                        Text('هل انت متأكد من تسجيل الخروج'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          FirebaseAuth.instance.signOut();
-                                          Navigator.pushNamed(
-                                              context, Home.routeName);
-                                        },
-                                        child: Text('نعم'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('لا'),
-                                      ),
-                                    ],
-                                  );
-                                });
-                          },
-                          child: card("تسجيل الخروج", Icons.logout)),
+                             Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return CoordinatorList(
+                                name: '${currentUser.name}',
+                              );
+                            }));
+                          }, child: card("الحجوزات", Icons.list)),
                     ],
                   ),
                 ),

@@ -11,6 +11,7 @@ class HallDetails extends StatefulWidget {
   String place;
   String description;
   String imageUrl;
+  String coName;
   HallDetails({
     required this.name,
     required this.price,
@@ -18,6 +19,7 @@ class HallDetails extends StatefulWidget {
     required this.place,
     required this.description,
     required this.imageUrl,
+    required this.coName,
   });
 
   @override
@@ -34,20 +36,18 @@ class _HallDetailsState extends State<HallDetails> {
         designSize: const Size(375, 812),
         builder: (context, child) => Scaffold(
           appBar: AppBar(
-              iconTheme: IconThemeData(
-                color: Colors.white, //change your color here
-              ),
-              backgroundColor: BackColor,
-              title: Center(
-                  child: Text(
-                'قاعة ${widget.name}',
-                style: TextStyle(color: Colors.white),
-              )),
-
+            iconTheme: IconThemeData(
+              color: Colors.white, //change your color here
             ),
+            backgroundColor: BackColor,
+            title: Center(
+                child: Text(
+              'قاعة ${widget.name}',
+              style: TextStyle(color: Colors.white),
+            )),
+          ),
           body: SingleChildScrollView(
             child: Column(children: [
-              
               SizedBox(
                 height: 30.h,
               ),
@@ -111,15 +111,11 @@ class _HallDetailsState extends State<HallDetails> {
                       height: 10.h,
                     ),
                     Padding(
-                      padding:  EdgeInsets.only(
-                        right: 20.w,
-                        left: 20.w
-
-                      ),
+                      padding: EdgeInsets.only(right: 20.w, left: 20.w),
                       child: Text(
                         'تفاصيل القاعة : ${widget.description}',
-                        style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w600),
                       ),
                     ),
                     SizedBox(
@@ -137,14 +133,12 @@ class _HallDetailsState extends State<HallDetails> {
                   elevation: 5,
                 ),
                 onPressed: () async {
-                  
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return Booking(
-                      name: '${widget.name}',
+                      name: widget.name,
+                      coName: widget.coName,
                     );
                   }));
-                  
                 },
                 child: Ink(
                   decoration: BoxDecoration(

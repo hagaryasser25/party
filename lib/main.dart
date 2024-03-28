@@ -4,11 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:party/Users/HomeUser.dart';
 import 'package:party/Users/Registration.dart';
 import 'package:party/Users/booking.dart';
-import 'package:party/admin/add_halls.dart';
-import 'package:party/admin/admin_halls.dart';
+import 'package:party/admin/add_coordinator.dart';
+import 'package:party/coordinator/add_halls.dart';
+import 'package:party/admin/admin_coordinators.dart';
+import 'package:party/coordinator/coordinator_halls.dart';
 import 'package:party/admin/admin_home.dart';
-import 'package:party/admin/admin_list.dart';
+import 'package:party/coordinator/coordinator_list.dart';
+import 'package:party/auth/Login.dart';
 import 'package:party/auth/admin_login.dart';
+import 'package:party/auth/coordinator_login.dart';
+import 'package:party/coordinator/coordinator_home.dart';
 
 import 'Home.dart';
 
@@ -39,19 +44,23 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: FirebaseAuth.instance.currentUser == null
-          ? Home()
-          : FirebaseAuth.instance.currentUser!.email == "admin@gmail.com"
-              ? const AdminHome()
-              : HomeUser(),
+            ? Login()
+            : FirebaseAuth.instance.currentUser!.email == 'admin@gmail.com'
+                ? const AdminHome()
+                : FirebaseAuth.instance.currentUser!.displayName == 'منسق'
+                    ? const CoordinatorHome()
+                    : HomeUser(),
       routes: {
         AdminLogin.routeName: (ctx) => AdminLogin(),
         Registration.routeName: (ctx) => Registration(),
         AdminHome.routeName: (ctx) => AdminHome(),
-        AdminHalls.routeName: (ctx) => AdminHalls(),
         AddHalls.routeName: (ctx) => AddHalls(),
         Home.routeName: (ctx) => Home(),
         HomeUser.routeName: (ctx) => HomeUser(),
-        AdminList.routeName: (ctx) => AdminList(),
+        AdminCoordinators.routeName: (ctx) => AdminCoordinators(),
+        AddCoordinator.routeName: (ctx) => AddCoordinator(),
+        CoordinatorLogin.routeName: (ctx) => CoordinatorLogin(),
+        CoordinatorHome.routeName: (ctx) => CoordinatorHome(),
       },
     );
   }
