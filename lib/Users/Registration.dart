@@ -1,155 +1,147 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:ndialog/ndialog.dart';
-import 'package:party/auth/Login.dart';
 
-import 'HomeUser.dart';
-
-class Registration extends StatefulWidget {
-  static const routeName = '/resgistration';
-  const Registration({Key? key}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  static const routeName = '/signUpPage';
+  const SignUpPage({super.key});
 
   @override
-  State<Registration> createState() => _RegistrationState();
-  IconData? get icon => Icons.lock;
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _RegistrationState extends State<Registration> {
-  bool obscureText = false;
-  late TextEditingController namecontroller;
-  late TextEditingController Emailcontroller;
-
-  late TextEditingController Passcontroller;
-  late TextEditingController Phonecontroller;
-  // ignore: deprecated_member_use
-
-  Color BackColor = Color.fromRGBO(21, 203, 149, 1);
-
-  void initState() {
-    super.initState();
-    Passcontroller = TextEditingController();
-    Phonecontroller = TextEditingController();
-    namecontroller = TextEditingController();
-    Emailcontroller = TextEditingController();
-  }
-
+class _SignUpPageState extends State<SignUpPage> {
+  final passwordController = TextEditingController();
+  final emailController = TextEditingController();
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Directionality(
-        textDirection: TextDirection.rtl,
-        child: ScreenUtilInit(
-          designSize: const Size(375, 812),
-          builder: (context, child) => Scaffold(
-            body: Container(
-              child: ListView(children: <Widget>[
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: ScreenUtilInit(
+        designSize: const Size(375, 812),
+        builder: (context, child) => Scaffold(
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 30.h),
+                  padding: EdgeInsets.only(top: 100.h),
                   child: Center(
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      width: 150.0,
-                      height: 150.0,
-                    ),
-                  ),
+                      child: Image.asset(
+                    "assets/images/logo.png",
+                    height: 150.h,
+                    width: 150.w,
+                  )),
                 ),
-                Center(
-                  child: Text(
-                    "مرحبا بك",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
+                SizedBox(
+                  height: 30.h,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
-                  child: Container(
-                    width: 260,
-                    child: TextFormField(
-                      controller: namecontroller!,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.person), // Icon you want to add
-                        border: OutlineInputBorder(),
-                        labelText: "أسم المستخدم",
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 30.w, right: 30.w, top: 20.w),
-                  child: Container(
-                    width: 260,
-                    child: TextFormField(
-                      controller: Emailcontroller!,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.email), // Icon you want to add
-                        border: OutlineInputBorder(),
-                        labelText: "ايميل المستخدم",
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 30.w, top: 30.w, right: 20.w),
-                  child: Container(
-                    child: Row(
-                      children: [
-                        distance.wightwidth(10),
-                        Expanded(
-                          flex: 1,
-                          child: TextFormField(
-                            controller: Phonecontroller,
-                            decoration: InputDecoration(
-                              labelText: 'رقم هاتف المحمول',
-                              prefixIcon:
-                                  Icon(Icons.phone), // Icon you want to add
-
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
-                  child: Container(
-                    width: 260,
-                    child: TextFormField(
-                      controller: Passcontroller,
-                      obscureText: obscureText,
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(widget.icon), // Icon you want to add
-                        border: OutlineInputBorder(),
-                        labelText: "كلمة المرور",
-
-                        suffixIcon: IconButton(
-                          icon: Icon(obscureText
-                              ? Icons.visibility_off
-                              : Icons.visibility),
-                          onPressed: () {
-                            setState(() {
-                              obscureText = !obscureText;
-                            });
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
+                  padding: EdgeInsets.only(right: 10.w, left: 10.w),
                   child: SizedBox(
-                    height: 50,
+                    height: 65.h,
+                    child: TextField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: HexColor('#2dda9f'), width: 2.0),
+                        ),
+                        border: OutlineInputBorder(),
+                        hintText: "الأسم",
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 10.w, left: 10.w),
+                  child: SizedBox(
+                    height: 65.h,
+                    child: TextField(
+                      controller: phoneController,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: HexColor('#2dda9f'), width: 2.0),
+                        ),
+                        border: OutlineInputBorder(),
+                        hintText: "رقم الهاتف",
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 10.w, left: 10.w),
+                  child: SizedBox(
+                    height: 65.h,
+                    child: TextField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: HexColor('#2dda9f'), width: 2.0),
+                        ),
+                        border: OutlineInputBorder(),
+                        hintText: 'البريد الألكترونى',
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 10.w, left: 10.w),
+                  child: SizedBox(
+                    height: 65.h,
+                    child: TextField(
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: HexColor('#2dda9f'), width: 2.0),
+                        ),
+                        border: OutlineInputBorder(),
+                        hintText: 'كلمة المرور',
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30.h,
+                ),
+             
+                Padding(
+                  padding: EdgeInsets.only(right: 10.w, left: 10.w),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints.tightFor(
+                        width: double.infinity, height: 65.h),
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: HexColor('#2dda9f'),
+                      ),
+                      child: Text(
+                        'انشاء حساب',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
                       onPressed: () async {
-                        var name = namecontroller.text.trim();
-                        var phoneNumber = Phonecontroller.text.trim();
-                        var email = Emailcontroller.text.trim();
-                        var password = Passcontroller.text.trim();
+                        var name = nameController.text.trim();
+                        var phoneNumber = phoneController.text.trim();
+                        var email = emailController.text.trim();
+                        var password = passwordController.text.trim();
 
                         if (name.isEmpty ||
                             email.isEmpty ||
@@ -193,6 +185,7 @@ class _RegistrationState extends State<Registration> {
                             email: email,
                             password: password,
                           );
+                          
                           User? user = userCredential.user;
 
                           if (userCredential.user != null) {
@@ -256,47 +249,13 @@ class _RegistrationState extends State<Registration> {
                               .show(context);
                         }
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: BackColor, // Button background color.
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // Add some spacing between the icon and text
-                          Text(
-                            'تسجيل حساب',
-                            style: TextStyle(fontSize: 16.0),
-                          ),
-                          Icon(
-                            Icons
-                                .arrow_back_ios_new_outlined, // Icon to use (you can change it to any other icon)
-                            size: 30.0, // Adjust the icon size as needed
-                          ),
-                          SizedBox(height: 10.0),
-                        ],
-                      ),
                     ),
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Login()),
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(25.0),
-                    child: Text(
-                      textAlign: TextAlign.center,
-                      "عودة",
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
+                SizedBox(
+                  height: 30.h,
                 ),
-              ]),
+              ],
             ),
           ),
         ),
@@ -305,24 +264,3 @@ class _RegistrationState extends State<Registration> {
   }
 }
 
-class distance {
-  static EdgeInsetsGeometry zero = EdgeInsets.zero;
-
-  static EdgeInsetsGeometry only(
-      {double top = 0, double right = 0, double bottom = 0, double left = 0}) {
-    return EdgeInsets.only(left: left, right: right, top: top, bottom: bottom);
-  }
-
-  static wightwidth(double i) {
-    return SizedBox(
-      width: i,
-    );
-  }
-
-  bool validatePhoneNumber(String phoneNumber) {
-    // Define a regular expression pattern for Jordanian phone numbers
-    // The pattern checks for +962 followed by 7 digits.
-    final RegExp regex = RegExp(r'^\+962-7\d{7}$');
-    return regex.hasMatch(phoneNumber);
-  }
-}

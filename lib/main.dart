@@ -44,15 +44,15 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: FirebaseAuth.instance.currentUser == null
-            ? Home()
-            : FirebaseAuth.instance.currentUser!.email == 'admin@gmail.com'
-                ? const AdminHome()
-                : FirebaseAuth.instance.currentUser!.displayName == 'منسق'
-                    ? const CoordinatorHome()
-                    : HomeUser(),
+          ? Home()
+          : FirebaseAuth.instance.currentUser!.email == 'admin@gmail.com'
+              ? const AdminHome()
+              : FirebaseAuth.instance.currentUser!.displayName == 'منسق'
+                  ? const CoordinatorHome()
+                  : HomeUser(),
       routes: {
         AdminLogin.routeName: (ctx) => AdminLogin(),
-        Registration.routeName: (ctx) => Registration(),
+        SignUpPage.routeName: (ctx) => SignUpPage(),
         AdminHome.routeName: (ctx) => AdminHome(),
         AddHalls.routeName: (ctx) => AddHalls(),
         Home.routeName: (ctx) => Home(),
@@ -61,6 +61,7 @@ class MyApp extends StatelessWidget {
         AddCoordinator.routeName: (ctx) => AddCoordinator(),
         CoordinatorLogin.routeName: (ctx) => CoordinatorLogin(),
         CoordinatorHome.routeName: (ctx) => CoordinatorHome(),
+        LoginPage.routeName: (ctx) => LoginPage(),
       },
     );
   }

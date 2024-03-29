@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:party/Users/Registration.dart';
 import 'package:party/auth/Login.dart';
 import 'package:party/auth/admin_login.dart';
 import 'package:party/auth/coordinator_login.dart';
@@ -55,7 +56,7 @@ class _HomeState extends State<Home> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Login()),
+                      MaterialPageRoute(builder: (context) => LoginPage()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -104,6 +105,7 @@ class _HomeState extends State<Home> {
             SizedBox(
               height: 15.h,
             ),
+           
             Center(
                 child: Padding(
               padding: EdgeInsets.only(

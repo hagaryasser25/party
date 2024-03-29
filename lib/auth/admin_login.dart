@@ -249,7 +249,7 @@ class _AdminLogin extends State<AdminLogin> {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, Registration.routeName);
+                  Navigator.pushNamed(context, SignUpPage.routeName);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(25.0),
